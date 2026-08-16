@@ -412,9 +412,9 @@
     <div class="request-access-card">
       <button class="close-btn" onclick="closeModal()">&times;</button>
       <h2>So you want to help with site development</h2>
-      <p>Submit your details below to become involved</p>
+      <p id="formInstructions">Submit your details below to become involved</p>
       
-      <form class="access-form" name="request-access" method="POST" data-netlify="true">
+      <form class="access-form" id="requestAccessForm" name="request-access" method="POST" data-netlify="true">
         <!-- Netlify hidden form field -->
         <input type="hidden" name="form-name" value="request-access" />
 
@@ -433,8 +433,13 @@
           <textarea id="artist-notes" name="notes" rows="3" placeholder="Why do you want to help Jerome FM"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">Submit Request</button>
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
       </form>
+
+      <div id="successMessage" style="display: none; padding: 20px 0; color: #4E4;">
+        <h3>Request Sent!</h3>
+        <p>Thanks for reaching out! We'll review your details and get back to you soon.</p>
+      </div>
     </div>
   </div>
 
@@ -471,6 +476,28 @@
         closeModal();
       }
     }
+
+    // Handle Form Submission via AJAX (Prevents 404 Redirect)
+    const accessForm = document.getElementById('requestAccessForm');
+    accessForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(accessForm);
+      
+      fetch('/', {
+        method: 'POST',
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(() => {
+        accessForm.style.display = 'none';
+        document.getElementById('formInstructions').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+      })
+      .catch((error) => {
+        alert('There was an error submitting your request. Please try again.');
+      });
+    });
   </script>
 
 </body>
