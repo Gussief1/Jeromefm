@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gussief1</title>
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── 5 BLEEDING BACKGROUND IMAGES ── */
+    .bg-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── FOREGROUND CONTENT ── */
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    /* ── NAME – SWIPE AWAY ON HOVER ── */
+    .name-wrapper {
+      display: inline-block;
+      cursor: default;
+    }
+
+    .name-wrapper h1 {
+      font-size: clamp(3rem, 8vw, 7rem);
+      color: #ffffff;
+      letter-spacing: -2px;
+      line-height: 1;
+      transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1),
+                  opacity   0.45s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .name-wrapper:hover h1 {
+      transform: translateX(120vw) skewX(30deg);
+      opacity: 0;
+    }
+
+    /* ── PROFILE PIC ── */
+    .pfp {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.5s ease, border-color 0.5s ease;
+    }
+
+    .pfp:hover {
+      transform: scale(1.08) rotate(3deg);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* ── SOCIAL ICONS ── */
+    .social-icons {
+      margin-top: 48px;
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-6px) scale(1.12);
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35));
+    }
+
+    .social-icons img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    /* ── SUBTLE NOISE OVERLAY ── */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ 5 BLEEDING BACKGROUND IMAGES ══════════ -->
+  <div class="bg-layer" id="bg1"><img src="../Misc/bg1.jpg" alt="" /></div>
+  <div class="bg-layer" id="bg2"><img src="../Misc/bg2.jpg" alt="" /></div>
+  <div class="bg-layer" id="bg3"><img src="../Misc/bg3.jpg" alt="" /></div>
+  <div class="bg-layer" id="bg4"><img src="../Misc/bg4.jpg" alt="" /></div>
+  <div class="bg-layer" id="bg5"><img src="../Misc/bg5.jpg" alt="" /></div>
+
+  <!-- ══════════ FOREGROUND CONTENT ══════════ -->
+  <div class="content">
+
+    <div class="name-wrapper">
+      <h1>Gussief1</h1>
+    </div>
+
+    <br />
+
+    <img src="../Resident images/Gussief1.jpg" class="pfp" alt="Gussief1" />
+
+    <div class="social-icons">
+      <a href="https://soundcloud.com/dthdju" target="_blank" rel="noopener">
+        <img src="../images/soundcloud.gif" alt="SoundCloud" />
+      </a>
+      <a href="https://www.instagram.com/gussief1/" target="_blank" rel="noopener">
+        <img src="../images/instagram.png" alt="Instagram" />
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ══════════ JS – Generates <style> keyframes dynamically ══════════ -->
+  <script>
+    (function () {
+      const MIN_OP = 0.05;   // 5%  minimum opacity (decimal)
+      const MAX_OP = 0.95;   // 95%  maximum opacity (decimal)
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const stylesheets = [];   // keep references so we can remove them later
+
+      document.querySelectorAll('.bg-layer').forEach((layer, i) => {
+        // ---- 1. Generate the keyframe string for THIS layer ----
+        const s0    = rand(MIN_OP, MAX_OP);
+        const s25   = rand(MIN_OP, MAX_OP);
+        const s50   = rand(MIN_OP, MAX_OP);
+        const s75   = rand(MIN_OP, MAX_OP);
+        const s100  = rand(MIN_OP, MAX_OP);
+
+        const dur   = rand(6, 14).toFixed(1);   // e.g. "9.3"
+        const delay = '-' + rand(0, parseFloat(dur)).toFixed(1);
+
+        const kfName = `bleed-${Date.now()}-${i}`;   // unique per layer
+
+        const keyframes = `
+          @keyframes ${kfName} {
+            0%    { opacity: ${s0.toFixed(3)}; }
+            25%   { opacity: ${s25.toFixed(3)}; }
+            50%   { opacity: ${s50.toFixed(3)}; }
+            75%   { opacity: ${s75.toFixed(3)}; }
+            100%  { opacity: ${s100.toFixed(3)}; }
+          }
+        `;
+
+        // ---- 2. Inject the keyframes into a <style> tag ----
+        const styleEl = document.createElement('style');
+        styleEl.textContent = keyframes;
+        document.head.appendChild(styleEl);
+        stylesheets.push(styleEl);
+
+        // ---- 3. Apply animation to the layer element ----
+        layer.style.animation = `${kfName} ${dur}s ${delay}s infinite alternate ease-in-out`;
+      });
+    })();
+  </script>
+
+</body>
+</html>
