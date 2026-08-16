@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main # Change to master if your default branch on GitHub is master
+  branch: main
 
 media_folder: "Resident images"
 public_folder: "../Resident images"
@@ -8,12 +8,23 @@ public_folder: "../Resident images"
 collections:
   - name: "residents"
     label: "Residents"
-    folder: "Residents"
+    folder: "data/residents"
     create: true
+    format: "json"
     slug: "{{slug}}"
     fields:
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Profile Picture", name: "pfp", widget: "image" }
-      - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
-      - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false }
+      - { label: "Instagram 2", name: "instagram2", widget: "string", required: false }
+      - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
+      - { label: "Bandcamp", name: "bandcamp", widget: "string", required: false }
+      - { label: "Resident Advisor", name: "ra", widget: "string", required: false }
+      - { label: "TikTok", name: "tiktok", widget: "string", required: false }
+      - { label: "Twitter", name: "twitter", widget: "string", required: false }
+      - { label: "YouTube", name: "youtube", widget: "string", required: false }
+      - { label: "Nina Protocol", name: "nina", widget: "string", required: false }
+      - { label: "Linktree", name: "linktree", widget: "string", required: false }
+      - { label: "Corus FM", name: "corus", widget: "string", required: false }
+      - { label: "Other Link", name: "web", widget: "string", required: false }
