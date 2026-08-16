@@ -34,8 +34,9 @@ collections:
     folder: "data/shows"
     create: true
     format: "json"
-    slug: "{{title}}"
+    slug: "{{custom_slug}}"
     fields:
+      - { label: "File Name (Short Identifier)", name: "custom_slug", widget: "string", hint: "Enter a short custom filename without spaces (e.g. show-12)" }
       - { label: "Show Title", name: "title", widget: "string" }
       - { label: "Broadcast Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
       - { label: "Show Artwork", name: "image", widget: "image" }
