@@ -24,7 +24,7 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
       background: #343434;
       color: #fff;
-      padding-bottom: 180px; /* Prevents video from covering page content */
+      padding-bottom: 220px; /* Prevents video from covering page content */
     }
 
     :root {
@@ -52,15 +52,6 @@
       gap:12px;
       min-height:64px;
     }
-
-    .click-cta {
-      border: 0;
-      background: transparent;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .click-cta img { height: 120px; }
 
     nav.site-nav {
       display:flex;
@@ -90,6 +81,7 @@
       transform:scaleX(1);
     }
 
+    /* MAIN SECTIONS */
     .images-section {
       max-width: 1800px;
       margin: 100px auto 0 auto;
@@ -109,12 +101,43 @@
       transition: transform 0.2s;
     }
 
-    /* BOTTOM VIDEO LOGIN OVERLAY */
-    .admin-video-overlay {
+    .images-section a img:hover {
+      transform: scale(1.02);
+    }
+
+    /* BOTTOM ADMIN & ACCESS CONTAINER */
+    .admin-wrapper {
       position: fixed;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 9999;
+    }
+
+    .ops-link {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      opacity: 0.85;
+      transition: opacity 0.2s, color 0.2s;
+      padding: 0;
+    }
+
+    .ops-link:hover {
+      opacity: 1;
+      color: #fff;
+    }
+
+    /* BOTTOM VIDEO LOGIN OVERLAY */
+    .admin-video-overlay {
       width: 320px;            /* Increased width */
       height: 180px;           /* Height matching 16:9 aspect ratio */
       max-width: 90vw;         /* Prevents breaking on smaller mobile screens */
@@ -122,15 +145,15 @@
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
       border: 2px solid #555;
-      z-index: 9999;
       cursor: pointer;
       display: block;
       text-decoration: none;
       transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
     }
 
     .admin-video-overlay:hover {
-      transform: translateX(-50%) scale(1.05);
+      transform: scale(1.05);
       border-color: #fff;
     }
 
@@ -153,11 +176,143 @@
       pointer-events: none;
     }
 
+    /* MODAL POPUP FOR REQUEST ACCESS FORM */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .request-access-card {
+      width: 90%;
+      max-width: 500px;
+      background: #242424;
+      border: 1px solid #555;
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    .request-access-card h2 {
+      margin-top: 0;
+      font-family: "Cinzel", serif;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .request-access-card p {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .access-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #bbb;
+    }
+
+    .form-group input, 
+    .form-group textarea {
+      padding: 10px;
+      background: #181818;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #888;
+    }
+
+    .submit-btn {
+      background: #444;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      margin-top: 6px;
+    }
+
+    .submit-btn:hover {
+      background: #555;
+      border-color: #999;
+    }
+
+    /* Disable text selection */
+    button, img, a, .images-section img, .admin-video-overlay {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* Remove outline highlight */
+    button:focus, button:active, img:focus, img:active, a:focus, a:active {
+      outline: none !important;
+    }
+
     /* Responsive */
     @media (max-width: 780px) {
       .topbar { padding: 12px; }
-      .brand img { height: 120px; }
-      .click-cta img { height: 80px; }
+      #logo { height: 90px; }
 
       .images-section {
         flex-direction: column;
@@ -168,29 +323,11 @@
       .images-section a img { width: 100%; }
     }
 
-    /* Disable text selection */
-    button, img, a, .click-cta, .images-section img, .admin-video-overlay {
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-    }
-
-    /* Remove outline highlight */
-    button:focus, button:active, img:focus, img:active, a:focus, a:active {
-      outline: none !important;
-      border: none !important;
-    }
-
     @media (max-width:500px) {
       .topbar {
         flex-direction: column;
         align-items: center;
         gap: 10px;
-      }
-
-      #logo {
-        height: 90px;
       }
 
       .right-wrap {
@@ -207,14 +344,21 @@
         white-space: nowrap;
       }
 
-      .admin-video-overlay {
-        width: 180px;
-        height: 100px;
+      .admin-wrapper {
         bottom: 10px;
       }
 
-      .admin-video-overlay .hover-text {
+      .admin-video-overlay {
+        width: 180px;
+        height: 100px;
+      }
+
+      .hover-text {
         font-size: 16px;
+      }
+
+      .ops-link {
+        font-size: 11px;
       }
     }
   </style>
@@ -251,13 +395,48 @@
     </a>
   </section>
 
-  <!-- Floating Video Admin Link -->
-  <a href="admin/index.html" class="admin-video-overlay" id="adminVideoLink" title="Admin Login">
-    <video id="loginVideo" autoplay loop muted playsinline>
-      <source src="images/helpme.mp4" type="video/mp4">
-    </video>
-    <div class="hover-text">LOGIN</div>
-  </a>
+  <!-- Floating Admin & Request Access Wrapper -->
+  <div class="admin-wrapper">
+    <button class="ops-link" onclick="openModal()">want to help with operations?</button>
+
+    <a href="admin/index.html" class="admin-video-overlay" id="adminVideoLink" title="Admin Login">
+      <video id="loginVideo" autoplay loop muted playsinline>
+        <source src="images/helpme.mp4" type="video/mp4">
+      </video>
+      <div class="hover-text">LOGIN</div>
+    </a>
+  </div>
+
+  <!-- REQUEST ACCESS MODAL POPUP -->
+  <div class="modal-overlay" id="accessModal" onclick="closeModalOnOverlay(event)">
+    <div class="request-access-card">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <h2>So you want to help with site development</h2>
+      <p>Submit your details below to become involved</p>
+      
+      <form class="access-form" name="request-access" method="POST" data-netlify="true">
+        <!-- Netlify hidden form field -->
+        <input type="hidden" name="form-name" value="request-access" />
+
+        <div class="form-group">
+          <label for="artist-name">Name</label>
+          <input type="text" id="artist-name" name="name" placeholder="Your Name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="artist-email">Email Address</label>
+          <input type="email" id="artist-email" name="email" placeholder="yourname@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="artist-notes">Why</label>
+          <textarea id="artist-notes" name="notes" rows="3" placeholder="Why do you want to help Jerome FM"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Request</button>
+      </form>
+    </div>
+  </div>
 
   <script>
     const videoLink = document.getElementById('adminVideoLink');
@@ -277,6 +456,21 @@
     videoLink.addEventListener('touchstart', () => {
       loginVideo.muted = false;
     }, { passive: true });
+
+    // Modal Control Functions
+    function openModal() {
+      document.getElementById('accessModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('accessModal').classList.remove('active');
+    }
+
+    function closeModalOnOverlay(e) {
+      if (e.target.id === 'accessModal') {
+        closeModal();
+      }
+    }
   </script>
 
 </body>
