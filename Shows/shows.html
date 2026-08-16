@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle">Show - Jerome FM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../images/logo-left.png">
+
+  <style>
+    body {
+      background: #b8d2ff;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 40px;
+      text-shadow: 0 1px 2px #000, 0 0 1px #000;
+    }
+    img.show-art-img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 16px;
+    }
+    a { color: #fff; text-decoration: underline; }
+    .top-right-links {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      gap: 16px;
+      z-index: 1000;
+    }
+    .top-right-links a { text-decoration: none; font-size: 20px; }
+    .resident-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .resident-badge img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+    .resident-name { font-size: 20px; font-weight: 600; }
+    .show-bio {
+      max-width: 700px;
+      margin: 24px auto;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #000;
+      text-shadow: none;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-right-links">
+  <a href="../index.html">Jerome FM</a>
+  <a href="../Shows.html">Shows</a>
+</div>
+
+<div style="position:relative; margin-top: 40px;">
+  <!-- RESIDENT BADGE -->
+  <div class="resident-badge" id="residentBadge" style="display:none;">
+    <a href="#" id="resImgLink">
+      <img id="resPfp" src="" alt="Resident">
+    </a>
+    <a href="#" id="resNameLink">
+      <div class="resident-name" id="resName"></div>
+    </a>
+  </div>
+
+  <h1 class="show-title" id="showTitle">Loading...</h1>
+  <p class="show-date" id="showDate"></p>
+
+  <a href="#" id="scLink" target="_blank" rel="noopener">
+    <img id="showArt" class="show-art-img" src="" alt="Show Art">
+  </a>
+
+  <h2 class="listen" id="listenHeader" style="display:none;">
+    <a href="#" id="listenLink" target="_blank" rel="noopener">← Listen on SoundCloud →</a>
+  </h2>
+
+  <div class="show-bio" id="showBody"></div>
+
+  <br>
+  <a href="../Shows.html" class="back-link">← Back to Shows</a>
+</div>
+
+<script>
+  async function loadShow() {
+    const params = new URLSearchParams(window.location.search);
+    const showId = params.get('id');
+
+    if (!showId) {
+      document.getElementById('showTitle').textContent = "Show Not Found";
+      return;
+    }
+
+    try {
+      const res = await fetch(`../data/shows/${showId}.json`);
+      if (!res.ok) throw new Error("File not found");
+      const data = await res.json();
+
+      document.getElementById('pageTitle').textContent = `${data.title} - Jerome FM`;
+      document.getElementById('showTitle').textContent = data.title;
+      document.getElementById('showDate').textContent = new Date(data.date).toDateString();
+      document.getElementById('showArt').src = data.image.startsWith('../') ? data.image : `../${data.image}`;
+
+      if (data.soundcloud_url) {
+        document.getElementById('scLink').href = data.soundcloud_url;
+        document.getElementById('listenLink').href = data.soundcloud_url;
+        document.getElementById('listenHeader').style.display = 'block';
+      }
+
+      if (data.resident_name) {
+        document.getElementById('resName').textContent = data.resident_name;
+        if (data.resident_pfp) document.getElementById('resPfp').src = data.resident_pfp.startsWith('../') ? data.resident_pfp : `../${data.resident_pfp}`;
+        if (data.resident_link) {
+          document.getElementById('resImgLink').href = data.resident_link;
+          document.getElementById('resNameLink').href = data.resident_link;
+        }
+        document.getElementById('residentBadge').style.display = 'flex';
+      }
+
+      if (data.body) {
+        document.getElementById('showBody').innerHTML = data.body;
+      }
+    } catch (e) {
+      document.getElementById('showTitle').textContent = "Show Not Found";
+    }
+  }
+
+  loadShow();
+</script>
+</body>
+</html>

@@ -28,3 +28,22 @@ collections:
       - { label: "Linktree", name: "linktree", widget: "string", required: false }
       - { label: "Corus FM", name: "corus", widget: "string", required: false }
       - { label: "Other Link", name: "web", widget: "string", required: false }
+      
+      
+      collections:
+  # ... (Your existing residents collection) ...
+
+  - name: "shows"
+    label: "Shows"
+    folder: "data/shows"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Show Title", name: "title", widget: "string" }
+      - { label: "Broadcast Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
+      - { label: "Show Artwork", name: "image", widget: "image" }
+      - { label: "SoundCloud or mixcloud Embed or Link", name: "soundcloud_url", widget: "string", required: false }
+      - { label: "Resident Name", name: "resident_name", widget: "string", required: false }
+      - { label: "Resident Profile Picture", name: "resident_pfp", widget: "image", required: false }
+      - { label: "Resident Link", name: "resident_link", widget: "string", required: false }
+      - { label: "Description / Tracklist", name: "body", widget: "markdown", required: false }
