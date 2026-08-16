@@ -276,67 +276,112 @@
 
   <!-- RESIDENT LOGIC -->
   <script>
-    let residents = [];
+// 1. YOUR EXISTING RESIDENTS (Hardcoded)
+const oldResidents = [
+  { name: "Joragon", pfp: "Resident images/Joragon.jpg", link: "residents/Joragon.html" },
+  { name: "Rare Plastic", pfp: "Resident images/Jerome.jpg", link: "residents/Rare Plastic.html" },
+  { name: "Gussief1", pfp: "Resident images/Gussief1.jpg", link: "residents/Gussief1.html" },
+  { name: "☁", pfp: "Resident images/Cloud.jpg", link: "residents/Cloud.html" },
+  { name: "noky", pfp: "Resident images/noky.jpg", link: "residents/noky.html" },
+  { name: "ZERO FUCKS GIVEN RADIO (hosted by SUS1ER)", pfp: "Resident images/fg.png", link: "residents/ZERO FUCKS GIVEN RADIO.html" },
+  { name: "Worli", pfp: "Resident images/Worli.jpg", link: "residents/Worli.html" },
+  { name: "4th-I Riddle C", pfp: "Resident images/4th-I Riddle C.jpg", link: "residents/4th-I Riddle C.html" },
+  { name: "DJ RUIM", pfp: "Resident images/DJ RUIM.jpg", link: "residents/DJ RUIM.html" },
+  { name: "Eña", pfp: "Resident images/ena.jpg", link: "residents/ena.html" },
+  { name: "Love Higher", pfp: "Resident images/love-higher.jpg", link: "residents/Love-Higher.html" },
+  { name: "AN System", pfp: "Resident images/AN-System.jpg", link: "residents/AN-System.html" },
+  { name: "blinx", pfp: "Resident images/blinx.jpg", link: "residents/blinx.html" },
+  { name: "sddp", pfp: "Resident images/sddp.jpg", link: "residents/sddp.html" },
+  { name: "Entrañas", pfp: "Resident images/Entrañas.jpg", link: "residents/Entrañas.html" },
+  { name: "Knarf", pfp: "Resident images/Knarf.jpg", link: "residents/Knarf.html" },
+  { name: "Nocturnal Wax", pfp: "Resident images/Nocturnal Wax.jpg", link: "residents/Nocturnal Wax.html" },
+  { name: "Aeon Shaker", pfp: "Resident images/Aeon Shaker.jpg", link: "residents/Aeon Shaker.html" },
+  { name: "Louis Me", pfp: "Resident images/Louis Me.jpg", link: "residents/Louis Me.html" },
+  { name: "Koh", pfp: "Resident images/koh.jpg", link: "residents/Koh.html" },
+  { name: "Request Access", pfp: "Resident images/Request Access.jpg", link: "residents/Request-Access.html" },
+  { name: "BOY BVRKE", pfp: "Resident images/BOY BVRKE.jpg", link: "residents/BOY BVRKE.html" },
+  { name: "Nishévitha", pfp: "Resident images/Nishévitha.jpg", link: "residents/Nishévitha.html" },
+  { name: "Sayat Lova", pfp: "Resident images/Sayat Lova.jpg", link: "residents/Sayat Lova.html" },
+  { name: "Impulso-Re", pfp: "Resident images/ImpulsoRe.jpg", link: "residents/ImpulsoRe.html" },
+  { name: "DJ Land Reform", pfp: "Resident images/DJ Land Reform.jpg", link: "residents/DJ Land Reform.html" },
+  { name: "zolf", pfp: "Resident images/zolf.jpg", link: "residents/zolf.html" },
+  { name: "syntrovert + friends 𓆝 𓆟 𓆞", pfp: "Resident images/syntrovert & friends.jpg", link: "residents/syntrovert & friends.html" },
+  { name: "pillbreakerr", pfp: "Resident images/pillbreakerr.jpg", link: "residents/pillbreakerr.html" },
+  { name: "Icarus Redux", pfp: "Resident images/Icarus Redux.jpg", link: "residents/Icarus Redux.html" },
+  { name: "fourplay", pfp: "Resident images/fourplay.jpg", link: "residents/fourplay.html" },
+  { name: "Heat Check", pfp: "Resident images/Heat Check.jpg", link: "residents/Heat Check.html" },
+  { name: "NANAGOTCHI", pfp: "Resident images/NANAGOTCHI.jpg", link: "residents/NANAGOTCHI.html" },
+  { name: "Derek Piotr", pfp: "Resident images/derek-piotr.jpg", link: "residents/derek-piotr.html" },
+  { name: "FATE/faith", pfp: "Resident images/fate-faith.jpeg", link: "residents/fate-faith.html" },
+  { name: "KUNAI", pfp: "Resident images/KUNAI.jpg", link: "residents/KUNAI.html" },
+  { name: "Redface Radio", pfp: "Resident images/Redface Radio.jpg", link: "residents/Redface Radio.html" },
+  { name: "Byna", pfp: "Resident images/Byna.jpg", link: "residents/Byna.html" }
+];
 
-    // Add new resident JSON slugs here after publishing them in CMS
-    const residentIds = [
-      "xqz-me",
-      "nave-mae"
-    ];
+// 2. NEW CMS RESIDENTS SLUGS
+const cmsResidentIds = [
+  "xqz-me",
+  "nave-mae"
+];
 
-    async function loadResidents() {
-      residents = [];
-      for (const id of residentIds) {
-        try {
-          const res = await fetch(`data/residents/${id}.json`);
-          if (res.ok) {
-            const data = await res.json();
-            residents.push({
-              name: data.name,
-              pfp: data.pfp,
-              link: `residents/profile.html?id=${id}`
-            });
-          }
-        } catch (e) {
-          console.error("Could not load resident:", id);
-        }
+let residents = [];
+
+async function loadResidents() {
+  // Start with your existing residents
+  residents = [...oldResidents];
+
+  // Fetch newly added CMS residents
+  for (const id of cmsResidentIds) {
+    try {
+      const res = await fetch(`data/residents/${id}.json`);
+      if (res.ok) {
+        const data = await res.json();
+        residents.push({
+          name: data.name,
+          pfp: data.pfp,
+          link: `residents/profile.html?id=${id}`
+        });
       }
-      sortABC();
+    } catch (e) {
+      console.error("Could not load resident:", id);
     }
+  }
+  sortABC();
+}
 
-    function displayResidents() {
-      const container = document.getElementById("residentContainer");
-      container.innerHTML = "";
+function displayResidents() {
+  const container = document.getElementById("residentContainer");
+  container.innerHTML = "";
 
-      residents.forEach(r => {
-        container.innerHTML += `
-          <div class="resident">
-            <a href="${r.link}">
-              <img src="${r.pfp}" class="pfp">
-            </a>
-            <a href="${r.link}">
-              <div class="resident-name">${r.name}</div>
-            </a>
-          </div>
-        `;
-      });
-    }
+  residents.forEach(r => {
+    container.innerHTML += `
+      <div class="resident">
+        <a href="${r.link}">
+          <img src="${r.pfp}" class="pfp">
+        </a>
+        <a href="${r.link}">
+          <div class="resident-name">${r.name}</div>
+        </a>
+      </div>
+    `;
+  });
+}
 
-    function sortABC() {
-      residents.sort((a, b) => a.name.localeCompare(b.name));
-      displayResidents();
-    }
+function sortABC() {
+  residents.sort((a, b) => a.name.localeCompare(b.name));
+  displayResidents();
+}
 
-    function shuffleResidents() {
-      for (let i = residents.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [residents[i], residents[j]] = [residents[j], residents[i]];
-      }
-      displayResidents();
-    }
+function shuffleResidents() {
+  for (let i = residents.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [residents[i], residents[j]] = [residents[j], residents[i]];
+  }
+  displayResidents();
+}
 
-    // Initialize loading residents on page load
-    loadResidents();
+// Load both lists on launch
+loadResidents();
   </script>
 
 </body>
