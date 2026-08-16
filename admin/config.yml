@@ -11,11 +11,11 @@ collections:
     folder: "data/residents"
     create: true
     format: "json"
-    slug: "{{slug}}"
+    slug: "{{title}}"
     fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Profile Picture", name: "pfp", widget: "image" }
-      - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Profile Picture", name: "pfp", widget: "image", required: false }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Instagram 2", name: "instagram2", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
@@ -28,21 +28,18 @@ collections:
       - { label: "Linktree", name: "linktree", widget: "string", required: false }
       - { label: "Corus FM", name: "corus", widget: "string", required: false }
       - { label: "Other Link", name: "web", widget: "string", required: false }
-      
-      
-      collections:
-  # ... (Your existing residents collection) ...
 
   - name: "shows"
     label: "Shows"
     folder: "data/shows"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    format: "json"
+    slug: "{{title}}"
     fields:
       - { label: "Show Title", name: "title", widget: "string" }
       - { label: "Broadcast Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
       - { label: "Show Artwork", name: "image", widget: "image" }
-      - { label: "SoundCloud or mixcloud Embed or Link", name: "soundcloud_url", widget: "string", required: false }
+      - { label: "SoundCloud or Mixcloud Embed or Link", name: "soundcloud_url", widget: "string", required: false }
       - { label: "Resident Name", name: "resident_name", widget: "string", required: false }
       - { label: "Resident Profile Picture", name: "resident_pfp", widget: "image", required: false }
       - { label: "Resident Link", name: "resident_link", widget: "string", required: false }
