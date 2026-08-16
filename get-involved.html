@@ -109,37 +109,50 @@
       transition: transform 0.2s;
     }
 
-/* BOTTOM VIDEO LOGIN OVERLAY */
-.admin-video-overlay {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;            /* Increased width */
-  height: 180px;           /* Height matching 16:9 aspect ratio */
-  max-width: 90vw;         /* Prevents breaking on smaller mobile screens */
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  border: 2px solid #555;
-  z-index: 9999;
-  cursor: pointer;
-  display: block;
-  text-decoration: none;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
+    /* BOTTOM VIDEO LOGIN OVERLAY */
+    .admin-video-overlay {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;            /* Increased width */
+      height: 180px;           /* Height matching 16:9 aspect ratio */
+      max-width: 90vw;         /* Prevents breaking on smaller mobile screens */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      border: 2px solid #555;
+      z-index: 9999;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
 
-.admin-video-overlay:hover {
-  transform: translateX(-50%) scale(1.05);
-  border-color: #fff;
-}
+    .admin-video-overlay:hover {
+      transform: translateX(-50%) scale(1.05);
+      border-color: #fff;
+    }
 
-.admin-video-overlay video {
-  width: 100%;
-  height: 100%;
-  object-fit: fill;        /* Forces video to stretch and completely fill the container */
-  display: block;
-}
+    .admin-video-overlay video {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;        /* Forces video to stretch and completely fill the container */
+      display: block;
+    }
+
+    .hover-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+    }
+
     /* Responsive */
     @media (max-width: 780px) {
       .topbar { padding: 12px; }
@@ -239,12 +252,32 @@
   </section>
 
   <!-- Floating Video Admin Link -->
-  <a href="admin/index.html" class="admin-video-overlay" title="Admin Login">
-    <video autoplay loop muted playsinline>
+  <a href="admin/index.html" class="admin-video-overlay" id="adminVideoLink" title="Admin Login">
+    <video id="loginVideo" autoplay loop muted playsinline>
       <source src="images/helpme.mp4" type="video/mp4">
     </video>
     <div class="hover-text">LOGIN</div>
   </a>
+
+  <script>
+    const videoLink = document.getElementById('adminVideoLink');
+    const loginVideo = document.getElementById('loginVideo');
+
+    // Unmute audio on hover
+    videoLink.addEventListener('mouseenter', () => {
+      loginVideo.muted = false;
+    });
+
+    // Mute again when cursor leaves
+    videoLink.addEventListener('mouseleave', () => {
+      loginVideo.muted = true;
+    });
+
+    // Unmute on touch for mobile devices
+    videoLink.addEventListener('touchstart', () => {
+      loginVideo.muted = false;
+    }, { passive: true });
+  </script>
 
 </body>
 </html>
