@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>- Residents -</title>
+  
+  <link rel="icon" href="images/logo-left.png" type="image/png">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTBM6H073"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YMTBM6H073');
+</script>
+
+  <style>
+    :root {
+      --bg:#343434;
+      --ink:#fff;
+      --maxw:1600px;
+    }
+
+    * { box-sizing:border-box; }
+
+    html, body {
+      height:100%;
+      margin:0;
+    }
+
+    body {
+      font-family: "Cinzel", serif, system-ui;
+      color:var(--ink);
+      background:var(--bg);
+      overflow-x:hidden;
+      text-align:center;
+    }
+
+    /* Disable clicks selecting stuff */
+    button, img, a {
+      user-select:none;
+      -webkit-user-select:none;
+    }
+
+:root{
+  --maxw:1600px;
+}
+
+/* TOP BAR */
+.topbar{
+  max-width:var(--maxw);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px;
+}
+
+#logo{
+  height:128px;
+  width:auto;
+}
+
+
+.right-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:64px;
+}
+
+    .click-cta {
+      border:0;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+    }
+
+    .click-cta img {
+      height:64px;
+      display:block;
+    }
+
+    nav.site-nav {
+      display:flex;
+      gap:20px;
+      font-weight:600;
+      font-size:20px;
+    }
+
+    nav.site-nav a {
+      color:white;
+      text-decoration:none;
+      position:relative;
+    }
+
+    nav.site-nav a:after {
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-4px;
+      height:2px;
+      background:currentColor;
+      transform:scaleX(0);
+      transform-origin:left;
+      transition: .2s ease;
+    }
+
+    nav.site-nav a:hover:after {
+      transform:scaleX(1);
+    }
+
+    /* Big centered Jerome FM logo */
+    .big-logo {
+      width:100%;
+      text-align:center;
+      margin-top:-20px;
+      margin-bottom:30px;
+    }
+    .big-logo img {
+      width:400px;
+      max-width:90%;
+      height:auto;
+    }
+
+    /* ---- RESIDENT GRID ---- */
+    .resident-list {
+      max-width:var(--maxw);
+      margin:0 auto;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:40px;
+      padding:20px;
+    }
+
+    .resident {
+      width:250px;
+      text-align:center;
+    }
+
+    .resident img.pfp {
+      width:250px;
+      height:250px;
+      object-fit:cover;
+      border-radius:12px;
+    }
+
+    .resident-name {
+      margin-top:12px;
+      font-size:22px;
+      color:#fff;
+      font-weight:bold;
+    }
+
+    /* Buttons */
+    .buttons {
+      margin-bottom:20px;
+    }
+
+    .buttons button {
+      background:#111;
+      color:#fff;
+      border:1px solid #555;
+      padding:10px 18px;
+      font-size:16px;
+      cursor:pointer;
+      border-radius:6px;
+      transition:0.2s;
+    }
+
+    .buttons button:hover {
+      background:#222;
+      border-color:#888;
+    }
+
+    /* Footnote */
+    .footer-note {
+      margin-top:40px;
+      font-size:12px;
+      opacity:0.7;
+    }
+
+    @media (max-width:800px) {
+      .brand img, .click-cta img { height:48px; }
+      .resident { width:45%; }
+      .resident img.pfp { width:100%; height:auto; }
+    }
+	
+	
+	@media (max-width:500px) {
+
+  /* Header behaves like other pages */
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #logo {
+    height: 90px;
+  }
+
+  .right-wrap {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav.site-nav {
+    gap: 14px;
+    font-size: 20px;
+  }
+
+  nav.site-nav a {
+    white-space: nowrap;
+  }
+
+  /* Buttons tightened for mobile */
+  .buttons {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .buttons button {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  /* Residents grid = clean, poster feel */
+  .resident {
+    width: 46%;
+  }
+
+  .resident img.pfp {
+    border-radius: 10px;
+  }
+
+  .resident-name {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    margin-top: 30px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div style="display:flex; flex-direction:column; align-items:flex-start; gap:5px;">
+  <a class="brand" href="index.html" title="Back to home">
+    <img id="logo" src="images/logo-left.png" alt="Station logo">
+  </a>
+
+	
+  </div>
+
+  <div class="right-wrap">
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html">Jerome Fm</a>
+	  <a href="Shows.html">Shows</a>
+      <a href="about.html">About</a>
+      <a href="get-involved.html">Get involved</a>
+    </nav>
+  </div>
+</header>
+
+  <!-- BUTTONS -->
+  <div class="buttons">
+    <button onclick="sortABC()">ABC Order</button>
+    <button onclick="shuffleResidents()">Shuffle</button>
+  </div>
+
+  <!-- RESIDENT GRID -->
+  <div id="residentContainer" class="resident-list"></div>
+
+  <p class="footer-note">
+    *Residents can edit their own page using HTML.
+  </p>
+
+  <!-- RESIDENT LOGIC -->
+  <script>
+    const residents = [
+      {
+        name: "Joragon",
+        pfp: "Resident images/Joragon.jpg",
+        link: "residents/Joragon.html"
+      },
+      {
+        name: "Rare Plastic",
+        pfp: "Resident images/Jerome.jpg",
+        link: "residents/Rare Plastic.html"
+      },
+      {
+        name: "Gussief1",
+        pfp: "Resident images/Gussief1.jpg",
+        link: "residents/Gussief1.html"
+      },
+	  {
+        name: "☁",
+        pfp: "Resident images/Cloud.jpg",
+        link: "residents/Cloud.html"
+      },
+	  {
+	          name: "noky",
+        pfp: "Resident images/noky.jpg",
+        link: "residents/noky.html"
+      },
+	  {
+	    name: "ZERO FUCKS GIVEN RADIO (hosted by SUS1ER)",
+        pfp: "Resident images/fg.png",
+        link: "residents/ZERO FUCKS GIVEN RADIO.html"
+      },
+	  {
+	    name: "Worli",
+        pfp: "Resident images/Worli.jpg",
+        link: "residents/Worli.html"
+      },
+	  {
+	          name: "4th-I Riddle C",
+        pfp: "Resident images/4th-I Riddle C.jpg",
+        link: "residents/4th-I Riddle C.html"
+      },
+	  	  {
+	          name: "DJ RUIM",
+        pfp: "Resident images/DJ RUIM.jpg",
+        link: "residents/DJ RUIM.html"
+      },
+	  {
+        name: "Eña",
+        pfp: "Resident images/ena.jpg",
+        link: "residents/ena.html"
+      },
+	  {
+	          name: "Love Higher",
+        pfp: "Resident images/love-higher.jpg",
+        link: "residents/Love-Higher.html"
+      },
+	  {
+	          name: "AN System",
+        pfp: "Resident images/AN-System.jpg",
+        link: "residents/AN-System.html"
+      },
+	  {
+	          name: "blinx",
+        pfp: "Resident images/blinx.jpg",
+        link: "residents/blinx.html"
+      },
+	  {
+	          name: "sddp",
+        pfp: "Resident images/sddp.jpg",
+        link: "residents/sddp.html"
+      },
+	  {
+	          name: "Entrañas",
+        pfp: "Resident images/Entrañas.jpg",
+        link: "residents/Entrañas.html"
+      },
+	  {
+	          name: "Knarf",
+        pfp: "Resident images/Knarf.jpg",
+        link: "residents/Knarf.html"
+      },
+	  {
+	          name: "Nocturnal Wax",
+        pfp: "Resident images/Nocturnal Wax.jpg",
+        link: "residents/Nocturnal Wax.html"
+      },
+	  {
+	          name: "Aeon Shaker",
+        pfp: "Resident images/Aeon Shaker.jpg",
+        link: "residents/Aeon Shaker.html"
+      },
+	  {
+	          name: "Louis Me",
+        pfp: "Resident images/Louis Me.jpg",
+        link: "residents/Louis Me.html"
+      },
+	  {
+	          name: "Koh",
+        pfp: "Resident images/koh.jpg",
+        link: "residents/Koh.html"
+      },
+	  {
+	          name: "Request Access",
+        pfp: "Resident images/Request Access.jpg",
+        link: "residents/Request-Access.html"
+      },
+	  {
+	          name: "BOY BVRKE",
+        pfp: "Resident images/BOY BVRKE.jpg",
+        link: "residents/BOY BVRKE.html"
+      },
+	  {
+	          name: "Nishévitha",
+        pfp: "Resident images/Nishévitha.jpg",
+        link: "residents/Nishévitha.html"
+      },
+	  {
+	          name: "Sayat Lova",
+        pfp: "Resident images/Sayat Lova.jpg",
+        link: "residents/Sayat Lova.html"
+      },
+	  {
+	          name: "Impulso-Re",
+        pfp: "Resident images/ImpulsoRe.jpg",
+        link: "residents/ImpulsoRe.html"
+      },
+	  {
+	          name: "DJ Land Reform",
+        pfp: "Resident images/DJ Land Reform.jpg",
+        link: "residents/DJ Land Reform.html"
+      },
+	  {
+	          name: "zolf",
+        pfp: "Resident images/zolf.jpg",
+        link: "residents/zolf.html"
+      },
+	  {
+	          name: "syntrovert + friends 𓆝 𓆟 𓆞",
+        pfp: "Resident images/syntrovert & friends.jpg",
+        link: "residents/syntrovert & friends.html"
+      },
+	  {
+	      name: "pillbreakerr",
+    pfp: "Resident images/pillbreakerr.jpg",
+    link: "residents/pillbreakerr.html"
+      },
+      {
+          name: "Icarus Redux",
+        pfp: "Resident images/Icarus Redux.jpg",
+        link: "residents/Icarus Redux.html"
+      },
+	  {
+	          name: "fourplay",
+        pfp: "Resident images/fourplay.jpg",
+        link: "residents/fourplay.html"
+      },
+	  {
+	          name: "Heat Check",
+        pfp: "Resident images/Heat Check.jpg",
+        link: "residents/Heat Check.html"
+      },
+	  {
+	      name: "NANAGOTCHI",
+    pfp: "Resident images/NANAGOTCHI.jpg",
+    link: "residents/NANAGOTCHI.html"
+      },
+      {
+      name: "Derek Piotr",
+    pfp: "Resident images/derek-piotr.jpg",
+    link: "residents/derek-piotr.html"
+      },
+      {
+      name: "FATE/faith",
+    pfp: "Resident images/fate-faith.jpeg",
+    link: "residents/fate-faith.html"
+      },
+      {
+      name: "XQZ ME",
+    pfp: "Resident images/xqz-me.jpg",
+    link: "residents/xqz-me.html"
+      },
+      {
+      name: "KUNAI",
+    pfp: "Resident images/KUNAI.jpg",
+    link: "residents/KUNAI.html"
+      },
+	  {
+	        name: "Redface Radio",
+    pfp: "Resident images/Redface Radio.jpg",
+    link: "residents/Redface Radio.html"
+      },
+	  {
+	        name: "Byna",
+    pfp: "Resident images/Byna.jpg",
+    link: "residents/Byna.html"
+      }
+
+    ];
+
+    function displayResidents() {
+      const container = document.getElementById("residentContainer");
+      container.innerHTML = "";
+
+      residents.forEach(r => {
+        container.innerHTML += `
+          <div class="resident">
+            <a href="${r.link}">
+              <img src="${r.pfp}" class="pfp">
+            </a>
+            <a href="${r.link}">
+              <div class="resident-name">${r.name}</div>
+            </a>
+          </div>
+        `;
+      });
+    }
+
+    function sortABC() {
+      residents.sort((a, b) => a.name.localeCompare(b.name));
+      displayResidents();
+    }
+
+    function shuffleResidents() {
+      for (let i = residents.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [residents[i], residents[j]] = [residents[j], residents[i]];
+      }
+      displayResidents();
+    }
+
+    sortABC(); // initial
+  </script>
+
+</body>
+</html>

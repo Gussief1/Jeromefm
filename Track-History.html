@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jerome FM's Track History</title>
+
+<link rel="icon" href="images/logo-left.png" type="image/png">
+
+<link rel="canonical" id="canonicalLink">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTBM6H073"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YMTBM6H073');
+</script>
+
+<style>
+:root{
+  --maxw:1600px;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #fff9df;
+  color: #000;
+}
+
+/* ===== TOP BAR (MATCHES RESIDENTS) ===== */
+.topbar{
+  max-width:var(--maxw);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px;
+}
+
+#logo{
+  height:128px;
+  width:auto;
+  display:block;
+}
+
+.right-wrap{
+  display:flex;
+  align-items:center;
+}
+
+nav.site-nav{
+  display:flex;
+  gap:20px;
+  font-weight:600;
+  font-size:20px;
+}
+
+nav.site-nav a{
+  color:#000;
+  text-decoration:none;
+  position:relative;
+  font-family:"Cinzel", serif;
+}
+
+nav.site-nav a:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-4px;
+  height:2px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:.2s ease;
+}
+
+nav.site-nav a:hover:after{
+  transform:scaleX(1);
+}
+
+/* ===== PAGE CONTENT ===== */
+main {
+  max-width: 900px;
+  margin: 16px auto 40px; /* tighter top */
+  padding: 0 16px;
+}
+
+
+h1 {
+  font-family: Cinzel, serif;
+  margin-bottom: 10px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 90px;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+.track-row strong {
+  font-weight: 600;
+}
+
+.track-row span {
+  opacity: 0.75;
+  font-size: 14px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:800px){
+  #logo{ height:48px; }
+}
+
+@media (max-width:600px){
+  .track-row{
+    grid-template-columns:1fr;
+  }
+}
+
+/* =========================
+   MOBILE ONLY: FIXED HEADER
+========================= */
+@media (max-width: 600px) {
+
+  body {
+    padding-top: 96px; /* space for fixed header */
+  }
+
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    max-width: none;     /* critical */
+    margin: 0;           /* critical */
+
+    background: inherit;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+  }
+
+  #logo {
+    height: 48px;
+  }
+
+  nav.site-nav {
+    font-size: 14px;
+    gap: 12px;
+  }
+}
+html, body {
+  overflow-x: hidden;
+}
+/* =========================
+   MOBILE: NO HORIZONTAL SCROLL
+   + TRUNCATE TRACK TEXT
+========================= */
+@media (max-width: 600px) {
+
+  /* NAV FIX */
+  nav.site-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .topbar {
+    width: 100%;
+  }
+
+  /* TRACK ROW STACK */
+  .track-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* CUT OFF LONG TRACK TITLES */
+  .track-row strong {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* Date + time smaller */
+  .track-row span {
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   TRACK HISTORY PLAYER
+========================= */
+
+.track-player {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 16px 0;
+}
+
+.track-player-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.track-play-btn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  width: 72px;
+  height: 72px;
+}
+
+.track-play-btn img {
+  width: 100%;
+  height: 100%;
+}
+
+#liveStatus img {
+  width: 72px;
+  display: none;
+}
+
+.track-volume {
+  position: relative;
+}
+
+.track-vol-btn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.track-vol-btn img {
+  width: 100%;
+  height: 100%;
+}
+
+.track-vol-slider {
+  display: none;
+  position: absolute;
+  left: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+}
+
+/* Slider styling */
+.track-vol-slider input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: #000;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* MOBILE: compact player */
+@media (max-width: 600px) {
+
+  .track-player-inner {
+    gap: 12px;
+  }
+
+  .track-play-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  #liveStatus img {
+    width: 48px;
+  }
+
+  /* Hide volume entirely on mobile */
+  .track-volume {
+    display: none;
+  }
+}
+.history-title {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.refresh-btn {
+  background: transparent;
+  border: 1px solid #000;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.refresh-btn:hover {
+  opacity: 1;
+}
+
+.history-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.history-controls button {
+  background: transparent;
+  border: 1px solid #000;
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.page-numbers-wrap {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.page-btn {
+  border: 1px solid #000;
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.page-btn.active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.page-btn:hover {
+  opacity: 1;
+}
+
+/* =========================
+   MOBILE: PAGINATION LAYOUT
+========================= */
+@media (max-width: 600px) {
+
+  .history-controls {
+    display: grid;
+    grid-template-areas:
+      "pages pages pages"
+      "prev  refresh next";
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    margin: 10px 0;
+    align-items: center;
+  }
+
+  .page-numbers-wrap {
+    grid-area: pages;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .prev-btn {
+    grid-area: prev;
+    justify-self: start;
+  }
+
+  .next-btn {
+    grid-area: next;
+    justify-self: end;
+  }
+
+  .refresh-btn {
+    grid-area: refresh;
+    padding: 6px 10px;
+    font-size: 16px;
+    min-width: 36px;
+  }
+
+  .page-btn {
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+}
+
+/* THEME ENGINE STYLES */
+body {
+  transition: background-color 0.3s ease;
+}
+
+/* Ensure text and links turn white on dark backgrounds */
+body.dark-theme,
+body.dark-theme h1,
+body.dark-theme nav.site-nav a,
+body.dark-theme .track-row,
+body.dark-theme .history-controls button,
+body.dark-theme .refresh-btn,
+body.dark-theme .page-btn,
+body.dark-theme #pageInfo,
+body.dark-theme .history-title {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.dark-theme .track-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Keep the search input readable */
+body.dark-theme #searchInput {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+body.dark-theme #searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+body.dark-theme .topbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <img id="logo" src="images/logo-left.png" alt="Station logo">
+  </a>
+  
+  <section class="track-player">
+  <div class="track-player-inner">
+
+    <button class="track-play-btn" id="playBtn">
+      <img src="images/play.png" id="playIcon" alt="Play">
+    </button>
+
+    <div id="liveStatus">
+      <img id="liveStatusImg" src="images/offline.png" alt="Live status">
+    </div>
+
+    <div class="track-volume">
+      <button class="track-vol-btn" id="volBtn">
+        <img src="images/volume.png" id="volIcon" alt="Volume">
+      </button>
+
+      <div class="track-vol-slider" id="volWrap">
+        <input
+          type="range"
+          id="volumeSlider"
+          min="0"
+          max="1"
+          step="0.01"
+          value="1"
+        >
+      </div>
+    </div>
+
+  </div>
+  
+<div style="font-size:12px; opacity:0.65; margin-top:6px; font-style:italic;">
+  * pages will open in new tab to allow for continuous playing
+</div>
+
+<div id="pageInfo" style="font-size:12px; opacity:0.6;"></div>
+
+
+
+  
+</section>
+
+<audio id="radioAudio" src="https://radio.jeromefm.live/stream"></audio>
+
+
+  <div class="right-wrap">
+    <nav class="site-nav">
+      <a href="index.html">Jerome FM</a>
+      <a href="residents.html" target="_blank" rel="noopener noreferrer">Residents</a>
+      <a href="shows.html" target="_blank" rel="noopener noreferrer">Shows</a>
+      <a href="about.html" target="_blank" rel="noopener noreferrer">About</a>
+      <a href="get-involved.html" target="_blank" rel="noopener noreferrer">Get involved</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<h1>
+  Track / Show History
+  <span style="font-size:0.6em; vertical-align:super;"></span>
+</h1>
+
+
+
+<div style="font-size:12px; opacity:0.7; margin-bottom:16px;">
+  *times are in EST
+</div>
+
+
+  <div style="margin-bottom:0px;">
+    <a href="https://docs.google.com/spreadsheets/d/1H5ZBzY9HP7fuh7XNU9rL6Ih2cuxfdG9Px869TlxG_tg/edit"
+       target="_blank"
+       style="font-size:14px; text-decoration:underline; opacity:0.8;">
+      View raw Google Sheet →
+    </a>
+  </div>
+  
+
+<div class="history-controls">
+  <button class="prev-btn">Prev ← </button>
+  <div class="page-numbers-wrap"></div>
+  <button class="next-btn">Next →</button>
+  <button class="refresh-btn" title="Refresh track list">⟳</button>
+</div>
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search track, artist, date (YYYY-MM-DD), and time frames (ex: 3:00 - 4:00, March, '2026-04-11 - 2026-03-13') "
+  >
+
+  <div id="trackList">Loading…</div>
+
+<div class="history-controls" style="margin-top: 20px;">
+  <button class="prev-btn">Prev ← </button>
+  <div class="page-numbers-wrap"></div>
+  <button class="next-btn">Next →</button>
+  <button class="refresh-btn" title="Refresh track list">⟳</button>
+</div>
+
+</main>
+
+<script>
+
+const PAGE_SIZE = 50;
+
+function getPageFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return parseInt(params.get("page") || "1", 10);
+}
+
+let currentPage = getPageFromURL();
+let activeRows = [];
+
+const TRACK_HISTORY_JSON =
+  "https://opensheet.elk.sh/1H5ZBzY9HP7fuh7XNU9rL6Ih2cuxfdG9Px869TlxG_tg/TrackHistory_2025";
+
+let allRows = [];
+
+async function loadTrackHistory() {
+  const res = await fetch(TRACK_HISTORY_JSON);
+  const rows = await res.json();
+  allRows = rows.reverse(); // newest first
+  activeRows = allRows;
+  renderPage();
+}
+
+// Function to update the URL silently without reloading the page
+function updateSilentURL() {
+  const url = new URL(window.location);
+  url.searchParams.set("page", currentPage);
+  window.history.replaceState({}, '', url);
+  updateCanonical();
+}
+
+function scrollToTop() {
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    // Scroll so the top of the search input is near the top of the screen
+    const y = searchInput.getBoundingClientRect().top + window.scrollY - 120;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+function renderPage() {
+  const container = document.getElementById("trackList");
+  container.innerHTML = "";
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const pageRows = activeRows.slice(start, end);
+
+  if (pageRows.length === 0) {
+     container.innerHTML = "<p style='opacity: 0.7;'>No tracks found.</p>";
+  }
+
+  pageRows.forEach(row => {
+    const div = document.createElement("div");
+    div.className = "track-row";
+    div.innerHTML = `
+      <strong>${row.Track}</strong>
+      <span>${row.Date}</span>
+      <span>${row.Time}</span>
+    `;
+    container.appendChild(div);
+  });
+
+  const totalPages = Math.ceil(activeRows.length / PAGE_SIZE) || 1;
+  renderPageNumbers(totalPages);
+  
+  // FIX: Only disable buttons if we are at the very start or end. We removed the "isSearching" restriction.
+  document.querySelectorAll(".prev-btn").forEach(btn => {
+    btn.disabled = currentPage === 1;
+  });
+
+  document.querySelectorAll(".next-btn").forEach(btn => {
+    btn.disabled = currentPage === totalPages;
+  });
+
+  document.getElementById("pageInfo").textContent =
+    `Page ${currentPage} of ${totalPages}`;
+    
+  document.title = currentPage === 1
+    ? "Jerome FM – Track History"
+    : `Jerome FM – Track History (Page ${currentPage})`;
+}
+
+function renderPageNumbers(totalPages) {
+  // Loop through all pagination wrappers (top and bottom)
+  document.querySelectorAll(".page-numbers-wrap").forEach(wrap => {
+    wrap.innerHTML = "";
+
+    const isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+      const windowSize = 4;
+      const half = Math.floor(windowSize / 2);
+
+      let start = Math.max(1, currentPage - half);
+      let end = Math.min(totalPages, start + windowSize - 1);
+
+      if (end - start < windowSize - 1) {
+        start = Math.max(1, end - windowSize + 1);
+      }
+
+      if (start > 1) {
+        wrap.appendChild(makePageBtn(1));
+        if (start > 2) wrap.appendChild(makeEllipsis());
+      }
+
+      for (let i = start; i <= end; i++) {
+        wrap.appendChild(makePageBtn(i));
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) wrap.appendChild(makeEllipsis());
+        wrap.appendChild(makePageBtn(totalPages));
+      }
+
+      return;
+    }
+
+    // ===== DESKTOP: SMART MODE =====
+    const windowSize = 10;
+    const half = Math.floor(windowSize / 2);
+
+    let start = Math.max(1, currentPage - half);
+    let end = Math.min(totalPages, start + windowSize - 1);
+
+    if (end - start < windowSize - 1) {
+      start = Math.max(1, end - windowSize + 1);
+    }
+
+    if (start > 1) {
+      wrap.appendChild(makePageBtn(1));
+      if (start > 2) wrap.appendChild(makeEllipsis());
+    }
+
+    for (let i = start; i <= end; i++) {
+      wrap.appendChild(makePageBtn(i));
+    }
+
+    if (end < totalPages) {
+      if (end < totalPages - 1) wrap.appendChild(makeEllipsis());
+      wrap.appendChild(makePageBtn(totalPages));
+    }
+  });
+}
+
+function makePageBtn(i) {
+  const btn = document.createElement("button");
+  btn.textContent = i;
+  btn.className = "page-btn" + (i === currentPage ? " active" : "");
+  btn.addEventListener("click", () => {
+    // FIX: Change page in memory and re-render instead of reloading page
+    currentPage = i;
+    updateSilentURL();
+    renderPage();
+    scrollToTop();
+  });
+  return btn;
+}
+
+function makeEllipsis() {
+  const span = document.createElement("span");
+  span.textContent = "…";
+  span.style.opacity = "0.5";
+  span.style.padding = "0 4px";
+  return span;
+}
+
+// Event listeners for ALL Prev buttons
+document.querySelectorAll(".prev-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (currentPage > 1) {
+      // FIX: Change page in memory and re-render
+      currentPage--;
+      updateSilentURL();
+      renderPage();
+      scrollToTop();
+    }
+  });
+});
+
+// Event listeners for ALL Next buttons
+document.querySelectorAll(".next-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const totalPages = Math.ceil(activeRows.length / PAGE_SIZE);
+    if (currentPage < totalPages) {
+      // FIX: Change page in memory and re-render
+      currentPage++;
+      updateSilentURL();
+      renderPage();
+      scrollToTop();
+    }
+  });
+});
+
+function updateCanonical() {
+  const canonical = document.getElementById("canonicalLink");
+  const baseURL = window.location.origin + window.location.pathname;
+
+  canonical.href =
+    currentPage === 1
+      ? baseURL
+      : `${baseURL}?page=${currentPage}`;
+}
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  const query = e.target.value.toLowerCase().trim();
+  
+  if (!query) {
+    activeRows = allRows;
+    currentPage = 1;
+    updateSilentURL();
+    renderPage();
+    return;
+  }
+
+  // 1. Detect Month Names
+  const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const shortMonths = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+  
+  let monthFilter = null;
+  months.forEach((m, index) => {
+    if (query.includes(m) || query.includes(shortMonths[index])) {
+      monthFilter = "-" + String(index + 1).padStart(2, '0') + "-";
+    }
+  });
+
+  // 2. Detect Date Ranges (handles YYYY-MM-DD - YYYY-MM-DD)
+  const allFoundDates = query.match(/\d{4}-\d{2}-\d{2}/g);
+  let dateStart = null, dateEnd = null;
+
+  if (allFoundDates && allFoundDates.length >= 2) {
+    // Automatically sort them so the user can type them in any order
+    const sortedDates = [...allFoundDates].sort();
+    dateStart = sortedDates[0];
+    dateEnd = sortedDates[1];
+  }
+
+  // 3. Detect Single Date & Time Range
+  const singleDateMatch = allFoundDates && allFoundDates.length === 1 ? allFoundDates[0] : null;
+  const timeRangeMatch = query.match(/(\d{1,2}(?::\d{2})?)\s*(am|pm)?\s*[\-–]\s*(\d{1,2}(?::\d{2})?)\s*(am|pm)?/i);
+
+  let tStart = null, tEnd = null;
+  if (timeRangeMatch) {
+    tStart = parseTimeToMinutes(timeRangeMatch[1], timeRangeMatch[2] || timeRangeMatch[4]);
+    tEnd   = parseTimeToMinutes(timeRangeMatch[3], timeRangeMatch[4] || timeRangeMatch[2]);
+  }
+
+  // Clean the query of date strings to allow combining text search with date search
+  const textQuery = query.replace(/\d{4}-\d{2}-\d{2}/g, '').replace(/(?:to|through|until|-)/g, '').trim();
+
+  const filtered = allRows.filter(row => {
+    // Filter by Month
+    if (monthFilter && !row.Date.includes(monthFilter)) return false;
+
+    // Filter by Date Range
+    if (dateStart && dateEnd) {
+      if (row.Date < dateStart || row.Date > dateEnd) return false;
+    } 
+    // Filter by Single Date
+    else if (singleDateMatch && row.Date !== singleDateMatch) {
+      return false;
+    }
+
+    // Filter by Time Range
+    if (tStart !== null && tEnd !== null) {
+      const rowTimeMatch = row.Time.match(/^\s*([^\-–]+)/);
+      const rowMins = rowTimeMatch ? parseTimeToMinutes(rowTimeMatch[1]) : null;
+      if (rowMins === null || rowMins < tStart || rowMins > tEnd) return false;
+    }
+
+    // Filter by Text (if there is text left over after removing dates)
+    if (textQuery && !months.includes(textQuery) && !shortMonths.includes(textQuery)) {
+       if (!row.Track.toLowerCase().includes(textQuery)) return false;
+    }
+
+    return true;
+  });
+
+  activeRows = filtered;
+  currentPage = 1;
+  updateSilentURL();
+  renderPage();
+});
+
+function parseTimeToMinutes(timeStr, forcedPeriod = null) {
+  if (!timeStr) return null;
+
+  timeStr = timeStr.toLowerCase().trim();
+
+  const match = timeStr.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);
+  if (!match) return null;
+
+  let hour = parseInt(match[1], 10);
+  let min  = parseInt(match[2] || "0", 10);
+  let period = match[3] || forcedPeriod;
+
+  if (!period) return null;
+
+  if (period === "pm" && hour !== 12) hour += 12;
+  if (period === "am" && hour === 12) hour = 0;
+
+  return hour * 60 + min;
+}
+
+loadTrackHistory();
+
+/* ======================
+   TRACK HISTORY PLAYER
+====================== */
+const audio = document.getElementById("radioAudio");
+const playBtn = document.getElementById("playBtn");
+const playIcon = document.getElementById("playIcon");
+const volBtn = document.getElementById("volBtn");
+const volWrap = document.getElementById("volWrap");
+const volumeSlider = document.getElementById("volumeSlider");
+const volIcon = document.getElementById("volIcon");
+
+playBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    playIcon.src = "images/pause.png";
+  } else {
+    audio.pause();
+    playIcon.src = "images/play.png";
+  }
+});
+
+let lastVolume = 1;
+let clickTimer = null;
+
+volBtn?.addEventListener("click", () => {
+  if (clickTimer) return;
+  clickTimer = setTimeout(() => {
+    volWrap.style.display =
+      volWrap.style.display === "block" ? "none" : "block";
+    clickTimer = null;
+  }, 250);
+});
+
+volBtn?.addEventListener("dblclick", () => {
+  clearTimeout(clickTimer);
+  clickTimer = null;
+
+  if (audio.muted) {
+    audio.muted = false;
+    audio.volume = lastVolume;
+    volumeSlider.value = lastVolume;
+    volIcon.src = "images/volume.png";
+  } else {
+    lastVolume = audio.volume || 1;
+    audio.muted = true;
+    volIcon.src = "images/mute.png";
+  }
+});
+
+volumeSlider?.addEventListener("input", () => {
+  audio.volume = volumeSlider.value;
+  audio.muted = false;
+  volIcon.src = "images/volume.png";
+});
+
+/* Live status */
+const liveImg = document.getElementById("liveStatusImg");
+const STREAM_URL = "https://radio.jeromefm.live/status-json.xsl";
+
+async function updateStatus() {
+  try {
+    const res = await fetch(STREAM_URL);
+    const data = await res.json();
+    const source = data.icestats?.source;
+
+    if (!source) {
+      liveImg.src = "images/offline.png";
+      liveImg.style.display = "block";
+      return;
+    }
+
+    liveImg.src = "images/Live-Now.png";
+    liveImg.style.display = "block";
+  } catch {
+    liveImg.src = "images/offline.png";
+    liveImg.style.display = "block";
+  }
+}
+
+updateStatus();
+setInterval(updateStatus, 5000);
+
+// Update ALL Refresh Buttons
+document.querySelectorAll(".refresh-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    document.querySelectorAll(".refresh-btn").forEach(b => {
+      b.textContent = "Refreshing…";
+      b.disabled = true;
+    });
+
+    await loadTrackHistory();
+
+    document.getElementById("searchInput").value = "";
+    updateSilentURL();
+    
+    document.querySelectorAll(".refresh-btn").forEach(b => {
+      b.textContent = "⟳ Refresh";
+      b.disabled = false;
+    });
+  });
+});
+
+// ======================
+// BACKGROUND THEME ENGINE
+// ======================
+function adjustTextColor(hexCode) {
+  const hex = hexCode.replace('#', '');
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+  
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  
+  if (yiq < 128) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
+}
+
+(function() {
+  const savedColor = localStorage.getItem("jeromeFmBgColor");
+  if (savedColor) {
+    document.body.style.backgroundColor = savedColor;
+    adjustTextColor(savedColor);
+  }
+})();
+
+</script>
+
+</body>
+</html>
