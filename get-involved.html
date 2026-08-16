@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Get Involved with Jerome FM</title>
 
-<link rel="icon" href="images/logo-left.png" type="image/png">
+  <link rel="icon" href="images/logo-left.png" type="image/png">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTBM6H073"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YMTBM6H073"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-YMTBM6H073');
-</script>
+    gtag('config', 'G-YMTBM6H073');
+  </script>
 
   <style>
     * { box-sizing: border-box; }
@@ -24,36 +24,35 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
       background: #343434;
       color: #fff;
+      padding-bottom: 180px; /* Prevents video from covering page content */
     }
 
-:root{
-  --maxw:1600px;
-}
+    :root {
+      --maxw:1600px;
+    }
 
-/* TOP BAR */
-.topbar{
-  max-width:var(--maxw);
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px;
-}
+    /* TOP BAR */
+    .topbar {
+      max-width:var(--maxw);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px;
+    }
 
-#logo{
-  height:128px;
-  width:auto;
-}
+    #logo {
+      height:128px;
+      width:auto;
+    }
 
+    .right-wrap {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-height:64px;
+    }
 
-.right-wrap{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-height:64px;
-}
-
-    /* Click This button stays the same */
     .click-cta {
       border: 0;
       background: transparent;
@@ -63,53 +62,84 @@
 
     .click-cta img { height: 120px; }
 
-nav.site-nav{
-  display:flex;
-  gap:20px;
-  font-weight:600;
-  font-size:20px;
-}
+    nav.site-nav {
+      display:flex;
+      gap:20px;
+      font-weight:600;
+      font-size:20px;
+    }
 
-nav.site-nav a{
-  color:white;
-  text-decoration:none;
-  position:relative;
-  font-family: "Cinzel", serif;
-}
+    nav.site-nav a {
+      color:white;
+      text-decoration:none;
+      position:relative;
+      font-family: "Cinzel", serif;
+    }
 
-nav.site-nav a:after{
-  content:"";
-  position:absolute;
-  left:0; right:0; bottom:-4px; height:2px;
-  background:currentColor;
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:.2s ease;
-}
+    nav.site-nav a:after {
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-4px; height:2px;
+      background:currentColor;
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:.2s ease;
+    }
 
-nav.site-nav a:hover:after{
-  transform:scaleX(1);
-}
+    nav.site-nav a:hover:after {
+      transform:scaleX(1);
+    }
 
-.images-section {
-  max-width: 1800px;
-  margin: 200px auto 0 auto; /* lower the section */
-  padding: 0 20px;
-  display: flex;
-  justify-content: center; /* keep centered */
-  flex-wrap: wrap; /* wrap on small screens */
-  gap: 50px; /* smaller gap, spacing handled naturally */
-}
+    .images-section {
+      max-width: 1800px;
+      margin: 100px auto 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
 
-.images-section a img {
-  width: 600px; /* bigger images */
-  max-width: 100%; /* responsive */
-  height: auto;
+    .images-section a img {
+      width: 600px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+/* BOTTOM VIDEO LOGIN OVERLAY */
+.admin-video-overlay {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;            /* Increased width */
+  height: 180px;           /* Height matching 16:9 aspect ratio */
+  max-width: 90vw;         /* Prevents breaking on smaller mobile screens */
   border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border: 2px solid #555;
+  z-index: 9999;
   cursor: pointer;
-  transition: transform 0.2s;
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
+.admin-video-overlay:hover {
+  transform: translateX(-50%) scale(1.05);
+  border-color: #fff;
+}
+
+.admin-video-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;        /* Forces video to stretch and completely fill the container */
+  display: block;
+}
     /* Responsive */
     @media (max-width: 780px) {
       .topbar { padding: 12px; }
@@ -119,67 +149,61 @@ nav.site-nav a:hover:after{
       .images-section {
         flex-direction: column;
         gap: 30px;
-        margin-top: 60px;
+        margin-top: 40px;
       }
 
       .images-section a img { width: 100%; }
     }
-	
-	/* Disable text selection */
-button,
-img,
-a,
-.click-cta,
-.images-section img {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
 
-/* Remove outline highlight */
-button:focus,
-button:active,
-img:focus,
-img:active,
-a:focus,
-a:active {
-  outline: none !important;
-  border: none !important;
-}
+    /* Disable text selection */
+    button, img, a, .click-cta, .images-section img, .admin-video-overlay {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
 
-@media (max-width:500px) {
+    /* Remove outline highlight */
+    button:focus, button:active, img:focus, img:active, a:focus, a:active {
+      outline: none !important;
+      border: none !important;
+    }
 
-  /* Stack header nicely */
-  .topbar {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
+    @media (max-width:500px) {
+      .topbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
 
-  /* Resize logo for mobile */
-  #logo {
-    height: 90px;
-  }
+      #logo {
+        height: 90px;
+      }
 
-  /* Center nav */
-  .right-wrap {
-    width: 100%;
-    justify-content: center;
-  }
+      .right-wrap {
+        width: 100%;
+        justify-content: center;
+      }
 
-  nav.site-nav {
-    gap: 25px;
-    font-size: 20px;       /* fits 3 links on iPhone 15 */
-  }
+      nav.site-nav {
+        gap: 25px;
+        font-size: 20px;
+      }
 
-  nav.site-nav a {
-    white-space: nowrap;  /* prevents wrapping */
-  }
-}
+      nav.site-nav a {
+        white-space: nowrap;
+      }
 
+      .admin-video-overlay {
+        width: 180px;
+        height: 100px;
+        bottom: 10px;
+      }
 
-
+      .admin-video-overlay .hover-text {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -187,20 +211,19 @@ a:active {
 <header class="topbar">
   <div style="display:flex; flex-direction:column; align-items:flex-start; gap:5px;">
     <a href="index.html">
-  <img id="logo" src="images/logo-left.png" alt="Station logo">
-</a>
+      <img id="logo" src="images/logo-left.png" alt="Station logo">
+    </a>
   </div>
 
   <div class="right-wrap">
     <nav class="site-nav" id="siteNav">
       <a href="index.html">Jerome Fm</a>
-	  <a href="residents.html">Residents</a>
-	  <a href="Shows.html">Shows</a>
+      <a href="residents.html">Residents</a>
+      <a href="Shows.html">Shows</a>
       <a href="about.html">About</a>
     </nav>
   </div>
 </header>
-
 
   <!-- Images Section -->
   <section class="images-section">
@@ -214,6 +237,14 @@ a:active {
       <img src="images/Donate.png" alt="Donate">
     </a>
   </section>
+
+  <!-- Floating Video Admin Link -->
+  <a href="admin/index.html" class="admin-video-overlay" title="Admin Login">
+    <video autoplay loop muted playsinline>
+      <source src="images/helpme.mp4" type="video/mp4">
+    </video>
+    <div class="hover-text">LOGIN</div>
+  </a>
 
 </body>
 </html>
