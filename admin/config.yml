@@ -83,3 +83,26 @@ collections:
           required: false,
           field: { label: "Track", name: "track", widget: "string" }
         }
+        - name: "editorial"
+    label: "Editorial"
+    folder: "data/editorial"
+    create: true
+    format: "json"
+    media_folder: "../Editorial-images"
+    public_folder: "../Editorial-images"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Author / DJ", name: "author", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
+      - { label: "Cover Image", name: "image", widget: "image" }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
+      - { 
+          label: "Article Body", 
+          name: "body", 
+          widget: "markdown", 
+          required: false,
+          buttons: ["bold", "italic", "code", "link", "heading-one", "heading-two", "quote", "bulleted-list", "numbered-list"],
+          editor_components: ["image"],
+          modes: ["raw", "rich_text"]
+        }

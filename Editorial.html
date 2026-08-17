@@ -4,15 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jerome FM - Editorial</title>
-
 <link rel="icon" href="images/logo-left.png" type="image/png">
 
 <style>
-:root{
-  --maxw:1200px;
-}
-
-* { box-sizing:border-box; }
+:root { --maxw: 1200px; }
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -20,133 +16,65 @@ body {
   background: #fff9df;
   color: #000;
   overflow-x: hidden;
+  transition: background-color 0.3s ease;
 }
 
-/* TOP BAR (Matched to your site) */
-.topbar{
-  max-width:1600px;
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px;
+/* TOPBAR MATCHING TRACK-HISTORY & EDITORIAL */
+.topbar {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
   border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 
-#logo{
-  height:96px;
-  width:auto;
-  display:block;
-}
+#logo { height: 96px; width: auto; display: block; }
+.right-wrap { display: flex; align-items: center; }
 
-.right-wrap{
-  display:flex;
-  align-items:center;
-}
-
-nav.site-nav{
-  display:flex;
-  gap:20px;
-  font-weight:600;
-  font-size:18px;
-}
-
-nav.site-nav a{
-  color:#000;
-  text-decoration:none;
-  position:relative;
-  font-family:"Cinzel", serif;
-}
-
-nav.site-nav a:after{
-  content:"";
-  position:absolute;
-  left:0; right:0; bottom:-4px; height:2px;
-  background:currentColor;
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:.2s ease;
-}
-
-nav.site-nav a:hover:after{
-  transform:scaleX(1);
-}
-
-/* COMPACT PLAYER */
-.track-player {
+nav.site-nav {
   display: flex;
-  align-items: center;
-  gap: 24px;
+  gap: 20px;
+  font-weight: 600;
+  font-size: 18px;
 }
 
-.track-play-btn {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  width: 56px;
-  height: 56px;
-}
-
-.track-play-btn img {
-  width: 100%;
-  height: 100%;
-}
-
-#liveStatus img {
-  width: 56px;
-  display: none;
-}
-
-.track-volume {
+nav.site-nav a {
+  color: #000;
+  text-decoration: none;
   position: relative;
+  font-family: "Cinzel", serif;
 }
 
-.track-vol-btn {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-}
-
-.track-vol-btn img { width: 100%; height: 100%; }
-
-.track-vol-slider {
-  display: none;
+nav.site-nav a:after {
+  content: "";
   position: absolute;
-  left: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100px;
+  left: 0; right: 0; bottom: -4px; height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: .2s ease;
 }
 
-.track-vol-slider input[type="range"] {
-  width: 100%;
-  height: 6px;
-  background: #000;
-  border-radius: 10px;
-  cursor: pointer;
-}
+nav.site-nav a:hover:after { transform: scaleX(1); }
 
-/* EDITORIAL GRID */
+/* GRID & CARDS */
 main {
   max-width: var(--maxw);
   margin: 40px auto;
   padding: 0 20px;
 }
 
+.header-wrap { text-align: center; }
+
 h1 {
   font-family: "Cinzel", serif;
   font-size: 36px;
-  text-align: center;
   margin-bottom: 40px;
   border-bottom: 2px solid #000;
   display: inline-block;
   padding-bottom: 10px;
-}
-
-.header-wrap {
-  text-align: center;
 }
 
 .article-grid {
@@ -157,13 +85,13 @@ h1 {
 
 .article-card {
   text-decoration: none;
-  color: #000;
+  color: inherit;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.article-card:hover {
-  transform: translateY(-5px);
-}
+.article-card:hover { transform: translateY(-5px); }
 
 .article-image {
   width: 100%;
@@ -195,13 +123,18 @@ h1 {
   opacity: 0.85;
 }
 
-/* MOBILE RESPONSIVENESS */
-@media (max-width: 800px) {
-  .topbar { flex-direction: column; gap: 16px; }
-  nav.site-nav { flex-wrap: wrap; justify-content: center; }
-  .track-volume { display: none; }
+/* DARK THEME ENGINE MATCHING TRACK-HISTORY */
+body.dark-theme,
+body.dark-theme h1,
+body.dark-theme nav.site-nav a,
+body.dark-theme .article-card {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
 }
 
+body.dark-theme .topbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
 </style>
 </head>
 
@@ -212,28 +145,6 @@ h1 {
     <img id="logo" src="images/logo-left.png" alt="Station logo">
   </a>
   
-  <section class="track-player">
-    <button class="track-play-btn" id="playBtn">
-      <img src="images/play.png" id="playIcon" alt="Play">
-    </button>
-    <div id="liveStatus">
-      <img id="liveStatusImg" src="images/offline.png" alt="Live status">
-    </div>
-    <div class="track-volume">
-      <button class="track-vol-btn" id="volBtn">
-        <img src="images/volume.png" id="volIcon" alt="Volume">
-      </button>
-      <div class="track-vol-slider" id="volWrap">
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-      </div>
-    </div>
-    <div style="font-size:11px; opacity:0.65; font-style:italic; margin-left: 10px;">
-      Articles open in a new tab<br>so you can keep listening!
-    </div>
-  </section>
-
-  <audio id="radioAudio" src="https://radio.gussief1.live/stream"></audio>
-
   <div class="right-wrap">
     <nav class="site-nav">
       <a href="index.html">Jerome FM</a>
@@ -249,95 +160,18 @@ h1 {
     <h1>Editorial</h1>
   </div>
 
-  <div class="article-grid">
-    
-    <a href="Editorial/Song of the Summer.html" target="_blank" rel="noopener noreferrer" class="article-card">
-      <img src="Editorial-images/Editorial-1.jpg" alt="Article Thumbnail" class="article-image">
-      <div class="article-meta">June 21, 2026 • DJ ME</div>
-      <h2 class="article-title">Song of the Summer???</h2>
-      <p class="article-excerpt">I'm suprised It didn't make the World Cup Album</p>
-    </a>
-
-    <a href="Editorial/example-article.html" target="_blank" rel="noopener noreferrer" class="article-card">
-      <img src="Editorial-images/placeholder.jpg" alt="Article Thumbnail" class="article-image">
-      <div class="article-meta">June 14th, 1997 • By Jerome FM Staff</div>
-      <h2 class="article-title">Resident Spotlight: Placeholder Resident</h2>
-      <p class="article-excerpt">This is an example of a editorial so we have a back up just in case we screw up.</p>
-    </a>
-
-    </div>
+  <div class="article-grid" id="editorialGrid">
+    <!-- Articles load dynamically here -->
+  </div>
 </main>
 
 <script>
-/* PLAYER LOGIC */
-const audio = document.getElementById("radioAudio");
-const playBtn = document.getElementById("playBtn");
-const playIcon = document.getElementById("playIcon");
-const volBtn = document.getElementById("volBtn");
-const volWrap = document.getElementById("volWrap");
-const volumeSlider = document.getElementById("volumeSlider");
-const volIcon = document.getElementById("volIcon");
-
-playBtn.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.load();
-    audio.play();
-    playIcon.src = "images/pause.png";
-  } else {
-    audio.pause();
-    playIcon.src = "images/play.png";
-  }
-});
-
-let clickTimer = null;
-volBtn?.addEventListener("click", () => {
-  if (clickTimer) return;
-  clickTimer = setTimeout(() => {
-    volWrap.style.display = volWrap.style.display === "block" ? "none" : "block";
-    clickTimer = null;
-  }, 250);
-});
-
-volumeSlider?.addEventListener("input", () => {
-  audio.volume = volumeSlider.value;
-  audio.muted = false;
-  volIcon.src = "images/volume.png";
-});
-
-/* LIVE STATUS */
-const liveImg = document.getElementById("liveStatusImg");
-const STREAM_URL = "https://radio.gussief1.live/status-json.xsl";
-
-async function updateStatus() {
-  try {
-    const res = await fetch(STREAM_URL);
-    const data = await res.json();
-    const source = data.icestats?.source;
-    if (!source) {
-      liveImg.src = "images/offline.png";
-      liveImg.style.display = "block";
-      return;
-    }
-    liveImg.src = "images/Live-Now.png";
-    liveImg.style.display = "block";
-  } catch {
-    liveImg.src = "images/offline.png";
-    liveImg.style.display = "block";
-  }
-}
-updateStatus();
-setInterval(updateStatus, 5000);
-
-
-// ======================
-// BACKGROUND THEME ENGINE
-// ======================
+// BACKGROUND THEME ENGINE (MATCHES TRACK-HISTORY & HOME PAGE)
 function adjustTextColor(hexCode) {
   const hex = hexCode.replace('#', '');
   const r = parseInt(hex.substr(0, 2), 16);
   const g = parseInt(hex.substr(2, 2), 16);
   const b = parseInt(hex.substr(4, 2), 16);
-  
   const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
   
   if (yiq < 128) {
