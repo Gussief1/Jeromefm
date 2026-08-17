@@ -15,7 +15,15 @@ collections:
     fields:
       - { label: "Name", name: "title", widget: "string" }
       - { label: "Profile Picture", name: "pfp", widget: "image", required: false }
-      - { label: "Bio", name: "bio", widget: "text", required: false }
+      - { 
+          label: "Bio", 
+          name: "bio", 
+          widget: "markdown", 
+          required: false,
+          buttons: ["bold", "italic", "code", "link", "heading-one", "heading-two", "quote", "bulleted-list", "numbered-list"],
+          editor_components: ["image"],
+          modes: ["raw", "rich_text"]
+        }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Instagram 2", name: "instagram2", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
@@ -53,4 +61,18 @@ collections:
           display_fields: ["title"], 
           required: false 
         }
-      - { label: "Description / Tracklist", name: "body", widget: "markdown", required: false }
+      - { 
+          label: "Description", 
+          name: "body", 
+          widget: "markdown", 
+          required: false,
+          buttons: ["bold", "italic", "code", "link", "heading-one", "heading-two", "quote", "bulleted-list", "numbered-list"],
+          modes: ["raw", "rich_text"]
+        }
+      - { 
+          label: "Tracklist", 
+          name: "tracklist", 
+          widget: "list", 
+          required: false,
+          field: { label: "Track", name: "track", widget: "string" }
+        }
