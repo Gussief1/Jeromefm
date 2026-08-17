@@ -83,7 +83,8 @@ collections:
           required: false,
           field: { label: "Track", name: "track", widget: "string" }
         }
-        - name: "editorial"
+
+  - name: "editorial"
     label: "Editorial"
     folder: "data/editorial"
     create: true
