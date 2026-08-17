@@ -194,18 +194,20 @@ async function loadEditorialArticles() {
   const grid = document.getElementById('editorialGrid');
 
   try {
-    // 1. Fetch the list of articles from index.json
-    const indexRes = await fetch('data/editorial/index.json');
-    if (!indexRes.ok) throw new Error('Could not load index.json');
-    const fileNames = await indexRes.json();
+    // 1. List whatever .json files actually exist in data/editorial via the GitHub API
+    //    (Decap CMS never writes an index.json, so we can't rely on one existing)
+    const repoRes = await fetch('https://api.github.com/repos/Gussief1/Jeromefm/contents/data/editorial');
+    if (!repoRes.ok) throw new Error('Could not list editorial articles');
+    const files = await repoRes.json();
+    const jsonFiles = Array.isArray(files) ? files.filter(f => f.name.endsWith('.json')) : [];
 
     // 2. Fetch each article file
     const articles = await Promise.all(
-      fileNames.map(async (file) => {
-        const res = await fetch(`data/editorial/${file}`);
+      jsonFiles.map(async (file) => {
+        const res = await fetch(file.download_url);
         if (!res.ok) return null;
         const data = await res.json();
-        return { ...data, slug: file.replace('.json', '') };
+        return { ...data, slug: file.name.replace('.json', '') };
       })
     );
 
@@ -219,7 +221,7 @@ async function loadEditorialArticles() {
     }
 
     grid.innerHTML = validArticles.map(article => `
-      <a class="article-card" href="article.html?id=${article.slug}">
+      <a class="article-card" href="Editorial/article.html?id=${article.slug}">
         ${article.image ? `<img class="article-image" src="${article.image.replace('../', '')}" alt="${article.title}">` : ''}
         <div class="article-meta">By ${article.author || 'Anonymous'} • ${article.date || ''}</div>
         <h2 class="article-title">${article.title}</h2>
