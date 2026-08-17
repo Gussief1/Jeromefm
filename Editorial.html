@@ -188,6 +188,79 @@ function adjustTextColor(hexCode) {
     adjustTextColor(savedColor);
   }
 })();
+
+
+</script>
+
+<script>
+// BACKGROUND THEME ENGINE
+function adjustTextColor(hexCode) {
+  const hex = hexCode.replace('#', '');
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  
+  if (yiq < 128) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
+}
+
+(function() {
+  const savedColor = localStorage.getItem("jeromeFmBgColor");
+  if (savedColor) {
+    document.body.style.backgroundColor = savedColor;
+    adjustTextColor(savedColor);
+  }
+})();
+
+// DYNAMIC EDITORIAL LOADER
+async function loadEditorialArticles() {
+  const grid = document.getElementById('editorialGrid');
+  
+  try {
+    // 1. Fetch index or list of files (or specify your JSON file names here)
+    // If you have a specific filename, replace this array with your files list
+    const fileNames = ['i-wish-i-knew.json']; 
+
+    const articles = await Promise.all(
+      fileNames.map(async (file) => {
+        const res = await fetch(`data/editorial/${file}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        return { ...data, slug: file.replace('.json', '') };
+      })
+    );
+
+    // Filter out failed fetches & sort by date descending
+    const validArticles = articles
+      .filter(Boolean)
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (validArticles.length === 0) {
+      grid.innerHTML = '<p>No articles found.</p>';
+      return;
+    }
+
+    // 2. Render cards into the grid
+    grid.innerHTML = validArticles.map(article => `
+      <a class="article-card" href="article.html?id=${article.slug}">
+        ${article.image ? `<img class="article-image" src="${article.image}" alt="${article.title}">` : ''}
+        <div class="article-meta">By ${article.author || 'Anonymous'} • ${article.date || ''}</div>
+        <h2 class="article-title">${article.title}</h2>
+        ${article.excerpt ? `<p class="article-excerpt">${article.excerpt}</p>` : ''}
+      </a>
+    `).join('');
+
+  } catch (err) {
+    console.error('Error loading articles:', err);
+    grid.innerHTML = '<p>Unable to load articles.</p>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadEditorialArticles);
 </script>
 
 </body>
