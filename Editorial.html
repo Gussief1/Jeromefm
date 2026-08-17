@@ -192,14 +192,14 @@ function adjustTextColor(hexCode) {
 // DYNAMIC EDITORIAL LOADER
 async function loadEditorialArticles() {
   const grid = document.getElementById('editorialGrid');
-  
-  // Add new JSON filenames created by Decap CMS to this array
-  const fileNames = [
-    '2026-08-17-i-wish-i-knew.json',
-    '2026-08-17-vert.json'
-  ];
 
   try {
+    // 1. Fetch the list of articles from index.json
+    const indexRes = await fetch('data/editorial/index.json');
+    if (!indexRes.ok) throw new Error('Could not load index.json');
+    const fileNames = await indexRes.json();
+
+    // 2. Fetch each article file
     const articles = await Promise.all(
       fileNames.map(async (file) => {
         const res = await fetch(`data/editorial/${file}`);
