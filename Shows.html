@@ -594,24 +594,27 @@
   }
 
 function displayShows() {
-    const container = document.getElementById("showContainer");
-    container.innerHTML = "";
+  const container = document.getElementById("showContainer");
+  container.innerHTML = "";
 
-    shows.forEach(show => {
-      // encodeURI fixes special characters like 'ñ' or spaces in file paths
-      const safeImageUrl = encodeURI(show.image);
+  shows.forEach(show => {
+    // Split the path by '/' and encode each filename/folder segment individually
+    const safeImageUrl = show.image
+      .split('/')
+      .map(segment => encodeURIComponent(segment))
+      .join('/');
 
-      container.innerHTML += `
-        <div class="show">
-          <a href="${show.page}">
-            <img src="${safeImageUrl}" alt="${show.title}">
-            <div class="show-title">${show.title}</div>
-            <div class="show-date">${formatDate(show.date)}</div>
-          </a>
-        </div>
-      `;
-    });
-  }
+    container.innerHTML += `
+      <div class="show">
+        <a href="${show.page}">
+          <img src="${safeImageUrl}" alt="${show.title}">
+          <div class="show-title">${show.title}</div>
+          <div class="show-date">${formatDate(show.date)}</div>
+        </a>
+      </div>
+    `;
+  });
+}
 
   function formatDate(dateStr) {
     if (!dateStr) return "";
