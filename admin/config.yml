@@ -89,7 +89,7 @@ collections:
     folder: "data/editorial"
     create: true
     format: "json"
-    media_folder: "../Editorial-images"
+    media_folder: "../../Editorial-images"
     public_folder: "../Editorial-images"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
