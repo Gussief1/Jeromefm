@@ -221,20 +221,23 @@ async function loadEditorialArticles() {
   const grid = document.getElementById('editorialGrid');
   
   try {
-    // 1. Fetch index or list of files (or specify your JSON file names here)
-    // If you have a specific filename, replace this array with your files list
-    const fileNames = ['i-wish-i-knew.json']; 
+    // 1. Fetch file list dynamically from GitHub API
+    const repoRes = await fetch('https://api.github.com/repos/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/contents/data/editorial');
+    if (!repoRes.ok) throw new Error('Failed to fetch article directory');
+    const files = await repoRes.json();
 
+    // 2. Load all JSON content
     const articles = await Promise.all(
-      fileNames.map(async (file) => {
-        const res = await fetch(`data/editorial/${file}`);
-        if (!res.ok) return null;
-        const data = await res.json();
-        return { ...data, slug: file.replace('.json', '') };
-      })
+      files
+        .filter(file => file.name.endsWith('.json'))
+        .map(async (file) => {
+          const res = await fetch(file.download_url);
+          if (!res.ok) return null;
+          const data = await res.json();
+          return { ...data, slug: file.name.replace('.json', '') };
+        })
     );
 
-    // Filter out failed fetches & sort by date descending
     const validArticles = articles
       .filter(Boolean)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -244,7 +247,6 @@ async function loadEditorialArticles() {
       return;
     }
 
-    // 2. Render cards into the grid
     grid.innerHTML = validArticles.map(article => `
       <a class="article-card" href="article.html?id=${article.slug}">
         ${article.image ? `<img class="article-image" src="${article.image}" alt="${article.title}">` : ''}
