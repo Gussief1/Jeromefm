@@ -24,6 +24,13 @@ collections:
           editor_components: ["image"],
           modes: ["raw", "rich_text"]
         }
+      - { 
+          label: "Discography / Key Releases", 
+          name: "tracklist", 
+          widget: "list", 
+          required: false,
+          field: { label: "Release / Track", name: "track", widget: "string" }
+        }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Instagram 2", name: "instagram2", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
