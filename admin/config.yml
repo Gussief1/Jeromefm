@@ -14,7 +14,7 @@ collections:
     slug: "{{title}}"
     fields:
       - { label: "Name", name: "title", widget: "string" }
-      - { label: "Profile Picture", name: "pfp", widget: "image", required: false }
+      - { label: "Profile Picture 15", name: "pfp", widget: "image", required: false }
       - { label: "Bio", name: "bio", widget: "text", required: false }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Instagram 2", name: "instagram2", widget: "string", required: false }
@@ -29,7 +29,7 @@ collections:
       - { label: "Corus FM", name: "corus", widget: "string", required: false }
       - { label: "Other Link", name: "web", widget: "string", required: false }
 
-  - name: "shows"
+ - name: "shows"
     label: "Shows"
     folder: "data/shows"
     create: true
@@ -43,5 +43,14 @@ collections:
       - { label: "SoundCloud or Mixcloud Embed or Link", name: "soundcloud_url", widget: "string", required: false }
       - { label: "Resident Name", name: "resident_name", widget: "string", required: false }
       - { label: "Resident Profile Picture", name: "resident_pfp", widget: "image", required: false }
-      - { label: "Resident Link", name: "resident_link", widget: "string", required: false }
+      - { 
+          label: "Resident Link", 
+          name: "resident_link", 
+          widget: "relation", 
+          collection: "residents", 
+          search_fields: ["title"], 
+          value_field: "residents/profile.html?id={{slug}}", 
+          display_fields: ["title"], 
+          required: false 
+        }
       - { label: "Description / Tracklist", name: "body", widget: "markdown", required: false }
