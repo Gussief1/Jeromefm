@@ -166,33 +166,6 @@ body.dark-theme .topbar {
 </main>
 
 <script>
-// BACKGROUND THEME ENGINE (MATCHES TRACK-HISTORY & HOME PAGE)
-function adjustTextColor(hexCode) {
-  const hex = hexCode.replace('#', '');
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
-  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  
-  if (yiq < 128) {
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-  }
-}
-
-(function() {
-  const savedColor = localStorage.getItem("jeromeFmBgColor");
-  if (savedColor) {
-    document.body.style.backgroundColor = savedColor;
-    adjustTextColor(savedColor);
-  }
-})();
-
-
-</script>
-
-<script>
 // BACKGROUND THEME ENGINE
 function adjustTextColor(hexCode) {
   const hex = hexCode.replace('#', '');
@@ -220,22 +193,20 @@ function adjustTextColor(hexCode) {
 async function loadEditorialArticles() {
   const grid = document.getElementById('editorialGrid');
   
-  try {
-    // 1. Fetch file list dynamically from GitHub API
-    const repoRes = await fetch('https://api.github.com/repos/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/contents/data/editorial');
-    if (!repoRes.ok) throw new Error('Failed to fetch article directory');
-    const files = await repoRes.json();
+  // Add new JSON filenames created by Decap CMS to this array
+  const fileNames = [
+    '2026-08-17-i-wish-i-knew.json',
+    '2026-08-17-vert.json'
+  ];
 
-    // 2. Load all JSON content
+  try {
     const articles = await Promise.all(
-      files
-        .filter(file => file.name.endsWith('.json'))
-        .map(async (file) => {
-          const res = await fetch(file.download_url);
-          if (!res.ok) return null;
-          const data = await res.json();
-          return { ...data, slug: file.name.replace('.json', '') };
-        })
+      fileNames.map(async (file) => {
+        const res = await fetch(`data/editorial/${file}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        return { ...data, slug: file.replace('.json', '') };
+      })
     );
 
     const validArticles = articles
@@ -249,7 +220,7 @@ async function loadEditorialArticles() {
 
     grid.innerHTML = validArticles.map(article => `
       <a class="article-card" href="article.html?id=${article.slug}">
-        ${article.image ? `<img class="article-image" src="${article.image}" alt="${article.title}">` : ''}
+        ${article.image ? `<img class="article-image" src="${article.image.replace('../', '')}" alt="${article.title}">` : ''}
         <div class="article-meta">By ${article.author || 'Anonymous'} • ${article.date || ''}</div>
         <h2 class="article-title">${article.title}</h2>
         ${article.excerpt ? `<p class="article-excerpt">${article.excerpt}</p>` : ''}
