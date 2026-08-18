@@ -107,3 +107,10 @@ collections:
           editor_components: ["image"],
           modes: ["raw", "rich_text"]
         }
+      - { 
+          label: "Embed Code (optional)", 
+          name: "embed", 
+          widget: "text", 
+          required: false,
+          hint: "Paste any embed code here (SoundCloud, YouTube, Mixcloud, etc.). It will automatically appear at the bottom of the article."
+        }

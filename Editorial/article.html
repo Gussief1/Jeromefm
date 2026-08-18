@@ -77,6 +77,15 @@
     margin: 24px 0 4px 0;
   }
 
+  /* Standalone embed field, always rendered at the bottom of the article */
+  .article-embed { margin-top: 32px; }
+  .article-embed iframe {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #000;
+  }
+
   .article-meta {
     font-size: 14px;
     font-style: italic;
@@ -114,6 +123,7 @@
     <img id="articleImage" class="article-image" src="" alt="">
   </div>
   <div class="article-body" id="articleBody"></div>
+  <div id="articleEmbed" class="article-embed"></div>
 
   <a href="../Editorial.html" class="back-link">← Back to Editorial</a>
 </main>
@@ -148,6 +158,11 @@
       if (data.body) {
         // data.body is raw Markdown from the CMS — convert it to HTML before inserting
         document.getElementById('articleBody').innerHTML = marked.parse(data.body);
+      }
+
+      if (data.embed) {
+        // Raw embed code (SoundCloud, YouTube, etc.) — always placed at the bottom
+        document.getElementById('articleEmbed').innerHTML = data.embed;
       }
     } catch (e) {
       document.getElementById('articleTitle').textContent = 'Article Not Found';
