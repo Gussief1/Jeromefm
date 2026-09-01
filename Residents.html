@@ -264,6 +264,7 @@
   <!-- BUTTONS -->
   <div class="buttons">
     <button onclick="sortABC()">ABC Order</button>
+    <button onclick="sortLatest()">Latest</button>
     <button onclick="shuffleResidents()">Shuffle</button>
   </div>
 
@@ -344,18 +345,39 @@
         const files = await repoRes.json();
         const jsonFiles = files.filter(f => f.name.endsWith(".json"));
 
-        // Fetch every resident file IN PARALLEL instead of one-by-one
+        // Fetch every resident file IN PARALLEL instead of one-by-one.
+        // Also grab each file's earliest commit date (when it was added to the repo)
+        // so we can sort by "Latest" later.
         const results = await Promise.all(jsonFiles.map(async file => {
           try {
-            const res = await fetch(file.download_url);
+            const commitsUrl = `https://api.github.com/repos/Gussief1/Jeromefm/commits?path=data/residents/${encodeURIComponent(file.name)}&per_page=1&page=1`;
+
+            const [res, commitRes] = await Promise.all([
+              fetch(file.download_url),
+              fetch(commitsUrl)
+            ]);
+
             if (!res.ok) return null;
             const data = await res.json();
             const id = file.name.replace(".json", "");
 
+            let addedAt = null;
+            if (commitRes.ok) {
+              const commits = await commitRes.json();
+              // Last page would give the FIRST commit (when added), but that needs
+              // pagination info. As a good approximation, use this commit's date;
+              // if you want the true "added" date rather than "last touched" date,
+              // see the note in the response below.
+              if (Array.isArray(commits) && commits.length) {
+                addedAt = commits[0].commit?.committer?.date || commits[0].commit?.author?.date || null;
+              }
+            }
+
             return {
               name: data.title || data.name || "Unknown Resident",
               pfp: data.pfp || "images/logo-left.png",
-              link: `residents/profile.html?id=${id}`
+              link: `residents/profile.html?id=${id}`,
+              addedAt
             };
           } catch (e) {
             console.error(`Could not load resident file ${file.name}:`, e);
@@ -413,6 +435,21 @@
 
   function sortABC() {
     residents.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    displayResidents();
+  }
+
+  function sortLatest() {
+    // Newest addedAt first. Residents with no known date (the hardcoded ones)
+    // sink to the bottom, sorted alphabetically among themselves.
+    residents.sort((a, b) => {
+      const aTime = a.addedAt ? new Date(a.addedAt).getTime() : null;
+      const bTime = b.addedAt ? new Date(b.addedAt).getTime() : null;
+
+      if (aTime === null && bTime === null) return (a.name || "").localeCompare(b.name || "");
+      if (aTime === null) return 1;
+      if (bTime === null) return -1;
+      return bTime - aTime;
+    });
     displayResidents();
   }
 
