@@ -322,39 +322,75 @@
   let residents = [];
 
   // 2. AUTOMATIC FETCH LOGIC FOR CMS RESIDENTS
+  const CMS_CACHE_KEY = "cmsResidentsCache";
+  const CMS_CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
   async function loadResidents() {
+    // Show the hardcoded residents immediately instead of waiting on the network
     residents = [...oldResidents];
+    sortABC();
+
+    // Serve from cache instantly if we fetched recently in this tab
+    const cached = getCachedCmsResidents();
+    if (cached) {
+      residents = [...oldResidents, ...cached];
+      sortABC();
+      return;
+    }
 
     try {
       const repoRes = await fetch("https://api.github.com/repos/Gussief1/Jeromefm/contents/data/residents");
       if (repoRes.ok) {
         const files = await repoRes.json();
-        
-        for (const file of files) {
-          if (file.name.endsWith(".json")) {
+        const jsonFiles = files.filter(f => f.name.endsWith(".json"));
+
+        // Fetch every resident file IN PARALLEL instead of one-by-one
+        const results = await Promise.all(jsonFiles.map(async file => {
+          try {
             const res = await fetch(file.download_url);
-            if (res.ok) {
-              const data = await res.json();
-              const id = file.name.replace(".json", "");
+            if (!res.ok) return null;
+            const data = await res.json();
+            const id = file.name.replace(".json", "");
 
-              // FIX: Read title or name properly from CMS JSON
-              const residentName = data.title || data.name || "Unknown Resident";
-              const residentPfp = data.pfp || "images/logo-left.png";
-
-              residents.push({
-                name: residentName,
-                pfp: residentPfp,
-                link: `residents/profile.html?id=${id}`
-              });
-            }
+            return {
+              name: data.title || data.name || "Unknown Resident",
+              pfp: data.pfp || "images/logo-left.png",
+              link: `residents/profile.html?id=${id}`
+            };
+          } catch (e) {
+            console.error(`Could not load resident file ${file.name}:`, e);
+            return null;
           }
-        }
+        }));
+
+        const cmsResidents = results.filter(Boolean);
+        residents = [...oldResidents, ...cmsResidents];
+        cacheCmsResidents(cmsResidents);
+        sortABC();
       }
     } catch (e) {
       console.error("Could not load CMS residents:", e);
     }
+  }
 
-    sortABC();
+  function getCachedCmsResidents() {
+    try {
+      const raw = sessionStorage.getItem(CMS_CACHE_KEY);
+      if (!raw) return null;
+      const { timestamp, data } = JSON.parse(raw);
+      if (Date.now() - timestamp > CMS_CACHE_TTL_MS) return null;
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function cacheCmsResidents(data) {
+    try {
+      sessionStorage.setItem(CMS_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+    } catch (e) {
+      // sessionStorage unavailable or full — safe to ignore, just means no caching
+    }
   }
 
   function displayResidents() {
@@ -365,7 +401,7 @@
       container.innerHTML += `
         <div class="resident">
           <a href="${r.link}">
-            <img src="${r.pfp}" class="pfp" alt="${r.name}">
+            <img src="${r.pfp}" class="pfp" alt="${r.name}" loading="lazy" decoding="async">
           </a>
           <a href="${r.link}">
             <div class="resident-name">${r.name}</div>
